@@ -55,13 +55,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let config = net::config::default();
     let zenoh = Zenoh::new(config).await?;
-    let alias: String = rand::thread_rng()
-        .sample_iter(&Alphanumeric)
-        .take(4)
-        .map(char::from)
-        .collect();
-
-    println!("alias {}", alias);
 
     let workspace = zenoh.workspace(Some("/rope".try_into()?)).await?;
     let session_id = zenoh.session().id().await;
@@ -82,6 +75,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             _ => unreachable!(),
         }
     } else {
+        let alias: String = rand::thread_rng()
+            .sample_iter(&Alphanumeric)
+            .take(4)
+            .map(char::from)
+            .collect();
+
+        println!("alias {}", alias);
         let peer = {
             let mut flag_stream = workspace.subscribe(&(alias.as_str()).try_into()?).await?;
             match flag_stream.next().await {
@@ -99,7 +99,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
 
     if let Some(path) = opts.path {
-        let listener = TcpListener::bind("0.0.0.0:0")?;
+        let listener = TcpListener::bind("[::]:0")?;
         let port = listener.local_addr()?.port();
 
         let name = std::path::Path::new(&path)
