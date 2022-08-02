@@ -14,12 +14,13 @@ $ cargo install --git https://github.com/rnbguy/rope
 # Send
 
 ```
-$ rope send <FILE>
-MAGIC -> blistering-barnacles
+$ rope send video.mp4
+MAGIC: blistering-barnacles
 ```
 
 # Receive
 
 ```
 $ rope recv blistering-barnacles
+$ ls video.mp4
 ```
