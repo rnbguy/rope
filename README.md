@@ -1,8 +1,25 @@
-rope
-===
+# rope
 
-P2P file transfer utility based on automatic peer finding ([zenoh][1]).
-This is based on my previous project [figo][2], but in Rust.
+P2P file transfer utility.
+This is based on my previous project [figo](https://github.com/rnbguy/figo), but in Rust.
 
-[1]: https://github.com/eclipse-zenoh/zenoh
-[2]: https://github.com/rnbguy/figo
+# Installation
+
+```
+$ cargo install --git https://github.com/rnbguy/rope
+```
+
+`rope` uses mDNS to find each other. Before using, make sure both machines are connected to the same network.
+
+# Send
+
+```
+$ rope send <FILE>
+MAGIC -> blistering-barnacles
+```
+
+# Receive
+
+```
+$ rope recv blistering-barnacles
+```
