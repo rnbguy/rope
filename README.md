@@ -1,6 +1,9 @@
 # rope
 
 P2P file transfer utility.
+
+![rope transfer](assets/rope.gif)
+
 This is based on my previous project [figo](https://github.com/rnbguy/figo), but in Rust.
 
 # Installation
