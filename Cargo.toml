@@ -12,7 +12,7 @@ anyhow = "1.0.66"
 clap = { version = "4.0.18", features = ["derive", "cargo"] }
 if-addrs = "0.7.0"
 indicatif = { version = "0.17.1", features = ["tokio"] }
-mdns-sd = "0.5.8"
+mdns-sd = "0.5.9"
 names = { version = "0.14.0", default-features = false }
 tokio = { version = "1.21.2", features = ["full", "rt-multi-thread", "net"] }
 tracing = "0.1"
