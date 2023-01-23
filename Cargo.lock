@@ -186,6 +186,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "if-addrs"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "26b24dd0826eee92c56edcda7ff190f2cf52115c49eadb2c2da8063e2673a8c2"
+dependencies = [
+ "libc",
+ "windows-sys",
+]
+
+[[package]]
 name = "indicatif"
 version = "0.17.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -264,7 +274,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "709cba29c9d7334db28706bc2767db2531934fd2e55781cba82c930fb7f22b47"
 dependencies = [
  "flume",
- "if-addrs",
+ "if-addrs 0.7.0",
  "log",
  "polling",
  "socket2",
@@ -503,7 +513,7 @@ version = "0.2.0"
 dependencies = [
  "anyhow",
  "clap",
- "if-addrs",
+ "if-addrs 0.8.0",
  "indicatif",
  "mdns-sd",
  "names",
