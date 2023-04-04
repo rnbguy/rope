@@ -7,7 +7,7 @@ use std::path::PathBuf;
 
 use anyhow::anyhow;
 
-use mdns_sd::{ServiceDaemon, ServiceEvent, ServiceInfo};
+use mdns_sd::{ServiceDaemon, ServiceEvent, ServiceInfo, TxtProperties};
 use names::Generator;
 use tokio::fs::File;
 
@@ -51,7 +51,7 @@ fn send_msg(magic_string: &str, port: u16, data: HashMap<String, String>) -> ARe
     Ok(())
 }
 
-fn recv_msg(magic_string: &str) -> AResult<(HashSet<Ipv4Addr>, u16, HashMap<String, String>)> {
+fn recv_msg(magic_string: &str) -> AResult<(HashSet<Ipv4Addr>, u16, TxtProperties)> {
     let mdns = ServiceDaemon::new()?;
 
     let receiver = mdns.browse(SERVICE_TYPE)?;

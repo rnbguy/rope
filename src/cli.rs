@@ -2,7 +2,7 @@ use std::fs::metadata;
 use std::path::{Path, PathBuf};
 
 use crate::AResult;
-use anyhow::anyhow;
+use anyhow::{anyhow, Context};
 use clap::Parser;
 use clap::{crate_authors, crate_description, crate_name, crate_version};
 use tokio::sync::oneshot;
@@ -62,16 +62,26 @@ impl App {
                 save_dir,
             } => {
                 let (addrs, port, data) = recv_msg(magic_string)?;
-                let name = Path::new(&data["name"])
-                    .file_name()
-                    .and_then(|x| x.to_str())
-                    .ok_or_else(|| anyhow!("Error while read filename"))?;
+                let name = Path::new(
+                    data.get_property_val_str("name")
+                        .context("`name` key must be present")?,
+                )
+                .file_name()
+                .and_then(|x| x.to_str())
+                .ok_or_else(|| anyhow!("Error while read filename"))?;
                 let path = save_dir.clone().unwrap_or_else(PathBuf::new).join(name);
                 for addr in &addrs {
                     debug!("Trying {addr}");
-                    if recv_file(addr, port, &path, data["size"].parse()?)
-                        .await
-                        .is_ok()
+                    if recv_file(
+                        addr,
+                        port,
+                        &path,
+                        data.get_property_val_str("size")
+                            .context("`size` key must be present")?
+                            .parse()?,
+                    )
+                    .await
+                    .is_ok()
                     {
                         debug!("File is received. Breaking loop");
                         break;
