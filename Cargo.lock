@@ -345,9 +345,9 @@ dependencies = [
 
 [[package]]
 name = "mdns-sd"
-version = "0.7.2"
+version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed0b1898d42fb934073c893ab88e8ae72076a5d862417dcf214c028011019753"
+checksum = "411616191b060924bcee8ef7d2f56f186386c8808a9e5db5d9f4ebd25bdeaa97"
 dependencies = [
  "flume",
  "if-addrs 0.7.0",
