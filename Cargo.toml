@@ -9,9 +9,9 @@ description = "easy file transfer on same network"
 
 [dependencies]
 anyhow = "1.0.71"
-clap = { version = "4.3.0", features = ["derive", "cargo"] }
+clap = { version = "4.3.2", features = ["derive", "cargo"] }
 if-addrs = "0.10.1"
-indicatif = { version = "0.17.4", features = ["tokio"] }
+indicatif = { version = "0.17.5", features = ["tokio"] }
 mdns-sd = "0.7.3"
 names = { version = "0.14.0", default-features = false }
 tokio = { version = "1.28.2", features = ["full", "rt-multi-thread", "net"] }
