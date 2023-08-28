@@ -9,7 +9,7 @@ description = "easy file transfer on same network"
 
 [dependencies]
 anyhow = "1.0"
-clap = { version = "4.3", features = ["derive", "cargo"] }
+clap = { version = "4.4", features = ["derive", "cargo"] }
 if-addrs = "0.10"
 indicatif = { version = "0.17", features = ["tokio"] }
 mdns-sd = "0.7"
