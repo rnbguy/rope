@@ -11,6 +11,8 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
+          profile: minimal
+      - uses: Swatinem/rust-cache@v2
       - uses: actions-rs/cargo@v1
         with:
           command: fmt
