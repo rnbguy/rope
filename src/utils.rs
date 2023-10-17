@@ -1,22 +1,14 @@
 use std::fmt::Write;
 
-use if_addrs::{IfAddr, Ifv4Addr};
+use if_addrs::IfAddr;
 use indicatif::{ProgressBar, ProgressState, ProgressStyle};
 
-pub fn my_ipv4_interfaces() -> Vec<Ifv4Addr> {
+pub fn my_ext_interfaces() -> Vec<IfAddr> {
     if_addrs::get_if_addrs()
         .unwrap_or_default()
         .into_iter()
-        .filter_map(|i| {
-            if i.is_loopback() {
-                None
-            } else {
-                match i.addr {
-                    IfAddr::V4(ifv4) => Some(ifv4),
-                    _ => None,
-                }
-            }
-        })
+        .filter(|i| i.is_loopback())
+        .map(|i| i.addr)
         .collect()
 }
 

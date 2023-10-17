@@ -25,9 +25,9 @@ fn generate_magic_string() -> String {
 
 fn send_msg(magic_string: &str, port: u16, data: HashMap<String, String>) -> AResult<()> {
     let mdns = ServiceDaemon::new()?;
-    let my_addrs: Vec<IpAddr> = crate::utils::my_ipv4_interfaces()
-        .iter()
-        .map(|i| i.ip.into())
+    let my_addrs: Vec<IpAddr> = crate::utils::my_ext_interfaces()
+        .into_iter()
+        .map(|i| i.ip())
         .collect();
 
     debug!("Collected addresses: {my_addrs:?}");
