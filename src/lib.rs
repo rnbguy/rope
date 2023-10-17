@@ -2,7 +2,7 @@ pub mod cli;
 pub mod utils;
 
 use std::collections::{HashMap, HashSet};
-use std::net::Ipv4Addr;
+use std::net::IpAddr;
 use std::path::PathBuf;
 
 use anyhow::anyhow;
@@ -28,9 +28,9 @@ fn generate_magic_string() -> String {
 
 fn send_msg(magic_string: &str, port: u16, data: HashMap<String, String>) -> AResult<()> {
     let mdns = ServiceDaemon::new()?;
-    let my_addrs: Vec<Ipv4Addr> = crate::utils::my_ipv4_interfaces()
+    let my_addrs: Vec<IpAddr> = crate::utils::my_ipv4_interfaces()
         .iter()
-        .map(|i| i.ip)
+        .map(|i| i.ip.into())
         .collect();
 
     debug!("Collected addresses: {my_addrs:?}");
@@ -51,7 +51,7 @@ fn send_msg(magic_string: &str, port: u16, data: HashMap<String, String>) -> ARe
     Ok(())
 }
 
-fn recv_msg(magic_string: &str) -> AResult<(HashSet<Ipv4Addr>, u16, TxtProperties)> {
+fn recv_msg(magic_string: &str) -> AResult<(HashSet<IpAddr>, u16, TxtProperties)> {
     let mdns = ServiceDaemon::new()?;
 
     let receiver = mdns.browse(SERVICE_TYPE)?;
@@ -101,7 +101,7 @@ async fn send_file(file_path: &str, size: u64, tx: oneshot::Sender<()>) -> AResu
     Ok(addr.port())
 }
 
-async fn recv_file(ip: &Ipv4Addr, port: u16, path: &PathBuf, size: u64) -> AResult<()> {
+async fn recv_file(ip: &IpAddr, port: u16, path: &PathBuf, size: u64) -> AResult<()> {
     let addr = format!("{ip}:{port}");
     let mut stream = TcpStream::connect(addr).await?;
 
