@@ -1,14 +1,12 @@
 use std::fs::metadata;
 use std::path::{Path, PathBuf};
 
-use crate::AResult;
 use anyhow::{anyhow, Context};
-use clap::Parser;
-use clap::{crate_authors, crate_description, crate_name, crate_version};
+use clap::{crate_authors, crate_description, crate_name, crate_version, Parser};
 use tokio::sync::oneshot;
 use tracing::{debug, info};
 
-use crate::{generate_magic_string, recv_file, recv_msg, send_file, send_msg};
+use crate::{generate_magic_string, recv_file, recv_msg, send_file, send_msg, AResult};
 
 #[derive(Parser, Debug)]
 #[clap(name = crate_name!(), version = crate_version!(), author = crate_authors!(), about = crate_description!())]

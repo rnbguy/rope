@@ -6,15 +6,12 @@ use std::net::IpAddr;
 use std::path::PathBuf;
 
 use anyhow::anyhow;
-
+pub use anyhow::Result as AResult;
 use mdns_sd::{ServiceDaemon, ServiceEvent, ServiceInfo, TxtProperties};
 use names::Generator;
 use tokio::fs::File;
-
 use tokio::net::{TcpListener, TcpStream};
 use tokio::sync::oneshot;
-
-pub use anyhow::Result as AResult;
 use tracing::debug;
 
 use crate::utils::get_progressbar;
