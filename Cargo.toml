@@ -8,6 +8,7 @@ license = "AGPL-3.0"
 keywords = ["mdns", "p2p", "network"]
 categories = ["command-line-utilities"]
 authors = ["Ranadeep Biswas <mail@rnbguy.at>"]
+rust-version = "1.74.1"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
