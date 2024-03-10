@@ -5,8 +5,7 @@ use std::collections::{HashMap, HashSet};
 use std::net::IpAddr;
 use std::path::PathBuf;
 
-use anyhow::anyhow;
-pub use anyhow::Result as AResult;
+use anyhow::{anyhow, Context, Result as AResult};
 use mdns_sd::{ServiceDaemon, ServiceEvent, ServiceInfo, TxtProperties};
 use names::Generator;
 use tokio::fs::File;
@@ -18,9 +17,9 @@ use crate::utils::get_progressbar;
 
 const SERVICE_TYPE: &str = "_rope._tcp.local.";
 
-fn generate_magic_string() -> String {
+fn generate_magic_string() -> AResult<String> {
     let mut generator = Generator::default();
-    generator.next().unwrap()
+    generator.next().context("Failed to generate magic string")
 }
 
 fn send_msg(magic_string: &str, port: u16, data: HashMap<String, String>) -> AResult<()> {
@@ -83,7 +82,7 @@ async fn send_file(file_path: &str, size: u64, tx: oneshot::Sender<()>) -> AResu
 
         debug!("Peer is connected. Sending file: {file_path_owned}");
 
-        let pb = get_progressbar(size);
+        let pb = get_progressbar(size)?;
 
         let f = File::open(file_path_owned).await?;
 
@@ -92,7 +91,7 @@ async fn send_file(file_path: &str, size: u64, tx: oneshot::Sender<()>) -> AResu
         debug!("Done. Sending signal via channel");
 
         tx.send(())
-            .map_err(|_| anyhow!("Couldn't sent signal via channel"))
+            .map_err(|()| anyhow!("Couldn't sent signal via channel"))
     });
 
     Ok(addr.port())
@@ -104,7 +103,7 @@ async fn recv_file(ip: &IpAddr, port: u16, path: &PathBuf, size: u64) -> AResult
 
     debug!("Peer is connected. Receiving file: {path:?}");
 
-    let pb = get_progressbar(size);
+    let pb = get_progressbar(size)?;
 
     let f = File::create(path).await?;
 

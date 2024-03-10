@@ -22,16 +22,17 @@ pub enum App {
 }
 
 impl App {
-    pub async fn run(&self) -> AResult<()> {
+    pub async fn run(self) -> AResult<()> {
         debug!("{self:?}");
         match self {
-            App::Send {
-                magic_string,
+            Self::Send {
+                magic_string: magic_string_opt,
                 file_path,
             } => {
-                let magic_string = magic_string
-                    .to_owned()
-                    .unwrap_or_else(generate_magic_string);
+                let magic_string = match magic_string_opt {
+                    Some(s) => s,
+                    None => generate_magic_string()?,
+                };
 
                 println!("MAGIC: {magic_string}");
 
@@ -39,15 +40,15 @@ impl App {
 
                 let (tx, rx) = oneshot::channel();
 
-                let file_size = metadata(file_path)?.len();
+                let file_size = metadata(&file_path)?.len();
 
-                let port = send_file(file_path, file_size, tx).await?;
+                let port = send_file(&file_path, file_size, tx).await?;
 
                 send_msg(
                     &magic_string,
                     port,
                     [
-                        ("name".into(), file_path.into()),
+                        ("name".into(), file_path),
                         ("size".into(), file_size.to_string()),
                     ]
                     .into(),
@@ -55,11 +56,11 @@ impl App {
 
                 rx.await?;
             }
-            App::Recv {
+            Self::Recv {
                 magic_string,
                 save_dir,
             } => {
-                let (addrs, port, data) = recv_msg(magic_string)?;
+                let (addrs, port, data) = recv_msg(&magic_string)?;
                 let name = Path::new(
                     data.get_property_val_str("name")
                         .context("`name` key must be present")?,
