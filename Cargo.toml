@@ -1,9 +1,14 @@
 [package]
 name = "rope"
 version = "0.2.0"
+description = "easy file transfer on same network"
+repository = "https://github.com/rnbguy/rope"
+readme = "README.md"
+license = "AGPL-3.0"
+keywords = ["mdns", "p2p", "network"]
+categories = ["command-line-utilities"]
 authors = ["Ranadeep Biswas <mail@rnbguy.at>"]
 edition = "2021"
-description = "easy file transfer on same network"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
